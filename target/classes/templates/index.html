@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+    <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Landing Page</title>
+
+        <div th:replace="fragments/cdn :: css" ></div>
+
+        <!-- Custom css -->
+        <link rel="stylesheet" href="css/indexPage.css">
+
+    </head>
+
+    <body>
+        
+        <div th:replace="fragments/navbar :: navbar" ></div>
+
+    	<div class="container bg-info">
+
+    		<h1>Welcome to da best blog place on da web!!!!!!!!!!!</h1>
+    		
+            <img th:src="@{images/knockoffTwit.png}"/>
+            
+    	</div>
+        
+    </body>
+
+    <footer>
+
+        <div th:replace="fragments/cdn :: js" ></div>
+        <!-- Custom js -->
+        <script src="js/indexPage.js"></script>
+        
+    </footer>
+
+</html>

@@ -1,0 +1,45 @@
+<html>
+    
+    <div th:fragment="navbar">
+
+        <nav class="navbar rounded navbar-expand-lg navbar-dark bg-primary">
+
+            <a class="navbar-brand" th:href="@{/}">
+                <img height="75px" width="75px" th:src="@{images/MockingbirdLetter-02.png}" />
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/signIn}">Sign In</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/signUp}">Sign Up</a>
+                    </li>
+
+                </ul>
+
+                <ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
+                    <li><a class="text-white m-1" href="/tweets">Home</a></li>
+                    <li><a class="text-white m-1" href="/tweets/new">New Tweet</a></li>
+                </ul>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+</html>

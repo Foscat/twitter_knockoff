@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title></title>
+        <div th:replace="fragments/cdn :: css" ></div>
+        <!-- Custom css -->
+        <link rel="stylesheet" href="css/indexPage.css">
+
+    </head>
+
+    <body>
+        
+        <div th:replace="fragments/navbar :: navbar" ></div>
+
+    	<div class="container bg-info">
+    		<div class="col">
+                <h1>Make a new tweet mofo!!!</h1>
+        
+                <img th:src="@{images/knockoffTwit.png}"/>
+            </div>
+
+            <div class="col">
+                <form th:action="@{/tweet}" th:object="${tweet}" method="POST" autocomplete="off">
+
+                    <div class="form-group">
+                        <label th:if="${fields.hasErrors('message')}" th:errors="*{message}" class="validation-message"></label>
+                        <textarea rows="5" th:field="*{message}" placeholder="What dafuq?" class="form-control"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Tweet dis hoe
+                    </button>
+                    
+                </form>
+                <div th:if="${successMessage}">
+                    <h3>
+                        <span class="text-success" th:utext="${successMessage}"></span>
+                    </h3>
+                </div>
+            </div>
+    	</div>
+        
+    </body>
+
+    <footer>
+        <div th:replace="fragments/cdn :: js" ></div>
+        <!-- Custom js -->
+        <script src="js/indexPage.js"></script>
+    </footer>
+
+</html>

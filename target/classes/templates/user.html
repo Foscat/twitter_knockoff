@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+    <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Landing Page</title>
+
+        <div th:replace="fragments/cdn :: css" ></div>
+
+        <!-- Custom css -->
+        <link rel="stylesheet" href="css/indexPage.css">
+
+    </head>
+
+    <body>
+
+        <div class="row">
+            <h2>Profile for 
+                <span th:text="${user.firstName}"></span> 
+                <span th:text="${user.lastName}"></span> - <span style="color: #00aced">
+                @<span th:text="${user.username}"></span></span>
+            </h2>
+            <h5>Joined <span th:text="${#dates.format(user.createdAt, 'MMMM dd, yyyy')}"></span></h5>
+
+            <form th:action="@{/follow/} + ${user.username}" th:if="${!following}" method="POST">
+                <button type="submit" class="btn btn-info">Follow</button>
+            </form> 
+
+            <form th:action="@{/unfollow/} + ${user.username}" th:if="${following}" method="POST">
+                <button type="submit" class="btn btn-danger unfollowBtn">Following</button>
+            </form>
+        </div>
+        
+        <div th:replace="fragments/navbar :: navbar" ></div>
+
+    	<div class="container bg-info">
+
+    		<div class="row">
+                <div class="col">
+                    <div th:if="${not #lists.isEmpty(tweetList)}">
+                        <h3>Tweets</h3>	
+                        <div class="list-group" th:each="tweet:${tweetList}">
+                            
+                            <div class="list-group-item list-group-item-action">
+
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5>@<span th:text="${tweet.user.username}"></span>
+                                    <span th:text="${#dates.format(tweet.createdAt, 'M/d/yy')}"></small></h5>
+                                </div>
+
+                                <p class="mb-1" th:utext="${tweet.message}"></p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${#lists.isEmpty(tweetList)}">
+                        <h3>No Recent Tweets</h3>
+                    </div>
+                </div>
+
+                <div class="col">
+                        <h2>Users</h2>
+                        <div class="list-group" th:each="user:${users}">
+                            <a th:href="@{/users/} + ${user.username}" class="list-group-item list-group-item-action">
+                                <div class="row">
+                                    <div class="col col-sm-6">
+                                        <h5 class="mb-1" style="color: #00aced"><i class="fab fa-twitter"></i> @<span th:text="${user.username}"></span></h5>	
+                                        <h5 class="mb-1"><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span></h5>
+                                    </div>
+                                    <div class="col col-sm-2 col-sm-offset-4 text-right">
+                                        <h5 class="mb-1"><span th:text="${tweetCounts.get(user.username)}"></span> tweets</h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                </div>
+            </div>
+            
+    	</div>
+        
+    </body>
+
+    <footer>
+
+        <div th:replace="fragments/cdn :: js" ></div>
+        <!-- Custom js -->
+        <script src="js/indexPage.js"></script>
+        
+    </footer>
+
+</html>
