@@ -94,7 +94,7 @@ public class DashboardController {
         List<User> usersFollowing = loggedInUser.getFollowing();
         SetFollowingStatus(users, usersFollowing, model);
 
-        return "user";
+        return "usersPage";
     }
 
     @GetMapping("/users/{username}")

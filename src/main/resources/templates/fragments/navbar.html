@@ -5,7 +5,7 @@
         <nav class="navbar rounded navbar-expand-lg navbar-dark bg-primary">
 
             <a class="navbar-brand" th:href="@{/}">
-                <img height="75px" width="75px" th:src="@{images/MockingbirdLetter-02.png}" />
+                <img height="75px" width="75px" th:src="@{/images/MockingbirdLetter-02.png}" />
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -15,16 +15,11 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
 
-                <ul class="navbar-nav">
+                <ul class="navbar-nav float-left navbar-left">
 
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/}">Home</a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/signIn}">Sign In</a>
-                    </li>
-
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/signUp}">Sign Up</a>
                     </li>
@@ -32,8 +27,20 @@
                 </ul>
 
                 <ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
-                    <li><a class="text-white m-1" href="/tweets">Home</a></li>
-                    <li><a class="text-white m-1" href="/tweets/new">New Tweet</a></li>
+                    <li class="ml-3"><a class="text-white" href="/tweets">See Tweets</a></li>
+                    <li class="ml-3"><a class="text-white m-1" href="/tweets/new">New Tweet</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav float-right navbar-right">
+                    <li sec:authorize="isAuthenticated()">
+                        <a class="m-1" style="pointer-events: none;color: #00aced">
+                        @<span sec:authentication="name"></span></a>
+                    </li>
+
+                    <!-- <li sec:authorize="isAuthenticated()"><a class="text-white m-1" th:href="@{/user/} + ${username}">Profile</a></li> -->
+                    <li sec:authorize="isAuthenticated()"><a class="text-white m-1" href="/users">See users</a></li>
+                    <li sec:authorize="isAuthenticated()"><a class="text-white m-1" href="../logout">Logout</a></li>
+                    <li sec:authorize="!isAuthenticated()"><a class="text-white m-1" th:href="@{/signIn}">Login</a></li>
                 </ul>
 
             </div>

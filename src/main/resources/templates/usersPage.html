@@ -37,16 +37,16 @@
                                     Tweets
                                 </h5>
 
-                                <form th:action="@{/follow/} + ${user.username}" method="POST"
-                                  th:if="${followingStatus.containsKey(user.username) && !followingStatus.get(user.username)" >
-                                
+                                <form th:action="@{/follow/} + ${user.username}" th:if="${followingStatus.containsKey(user.username) 
+                                    && !followingStatus.get(user.username)}" method="POST" >
+                                <!-- th:if="${!followingStatus.containsKey(user.username) && !followingStatus.get(user.username)}" -->
                                     <button type="submit" class="btn btn-success">Follow</button>
 
                                 </form>
 
-                                <form th:action="@{/unfollow/} + ${user.username}" method="POST"
-                                  th:if="${followingStatus.containsKey(user.username) && followingStatus.get(user.username)" >
-                                
+                                <form th:action="@{/unfollow/} + ${user.username}" th:if="${followingStatus.containsKey(user.username) 
+                                    && followingStatus.get(user.username)}" method="POST" >
+                                <!-- th:if="${followingStatus.containsKey(user.username) && followingStatus.get(user.username)" -->
                                     <button type="submit" class="btn btn-primary unfollowBtn">Following</button>
 
                                 </form>

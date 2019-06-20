@@ -51,6 +51,9 @@ public class TweetController {
 
         User user = userService.getLoggedInUser();
 
+        // if(bindingResult.hasErrors()){
+        //     model.addAttribute("mesage", "dafuq bro");
+        // }
         if (!bindingResult.hasErrors()) {
 
             tweet.setUser(user);
@@ -62,7 +65,6 @@ public class TweetController {
         }
         return "tweets/newTweet";
     }
-
 
     @GetMapping("/tweets/{tag}")
     public String getTweetsByTag(@PathVariable("tag") String tag, Model model) {

@@ -53,7 +53,8 @@ public class User {
 	private String firstName;
 	
 	@NotEmpty(message = "You arnt Prince, you have a last name.")
-    private String lastName;
+	private String lastName;
+	
     private int active;
 
     @CreationTimestamp 
