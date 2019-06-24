@@ -2,11 +2,13 @@ package com.springBoot.controllers;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.springBoot.models.Tweet;
+import com.springBoot.models.TweetDisplay;
 import com.springBoot.models.User;
 import com.springBoot.services.TweetService;
 import com.springBoot.services.UserService;
@@ -18,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TweetController {
@@ -29,12 +32,26 @@ public class TweetController {
     TweetService tweetService;
 
     @GetMapping("/tweets")
-    public String getFeed(Model model) {
+    public String getFeed(@RequestParam(value = "filter", required = false) String filter ,Model model) {
 
-        List<Tweet> tweets = tweetService.findAll();
+        List<TweetDisplay> tweets = new ArrayList<>();
+        User loggedInUser = userService.getLoggedInUser();
+
+        if(filter == null){
+            filter = "all";
+        }
+        if (filter.equalsIgnoreCase("following")) {
+            List<User> following = loggedInUser.getFollowing();
+            tweets = tweetService.findAllByUsers(following);
+            model.addAttribute("filter", "following");
+        }
+        else{
+            tweets = tweetService.findAll();
+            model.addAttribute("filter", "all");
+        }
         model.addAttribute("tweetlist", tweets);
+
         return "tweets/feed";
-        
     }
 
     @GetMapping("/tweets/new")
@@ -51,9 +68,6 @@ public class TweetController {
 
         User user = userService.getLoggedInUser();
 
-        // if(bindingResult.hasErrors()){
-        //     model.addAttribute("mesage", "dafuq bro");
-        // }
         if (!bindingResult.hasErrors()) {
 
             tweet.setUser(user);
@@ -68,7 +82,7 @@ public class TweetController {
 
     @GetMapping("/tweets/{tag}")
     public String getTweetsByTag(@PathVariable("tag") String tag, Model model) {
-        List<Tweet> tweets = tweetService.findAllWithTag(tag);
+        List<TweetDisplay> tweets = tweetService.findAllWithTag(tag);
         model.addAttribute(("tweetList"), tweets);
         model.addAttribute("tag", tag);
         return "tweets/taggedTweets";

@@ -1,18 +1,23 @@
 package com.springBoot.services;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.springBoot.models.Tag;
 import com.springBoot.models.Tweet;
+import com.springBoot.models.TweetDisplay;
 import com.springBoot.models.User;
 import com.springBoot.repos.TagRepo;
 import com.springBoot.repos.TweetRepo;
 
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,25 +38,24 @@ public class TweetService {
         this.tweetRepo = tweetRepo;
     }
 
-    public List<Tweet> findAll() {
+    public List<TweetDisplay> findAll() {
 
         List<Tweet> tweets = tweetRepo.findAllByOrderByCreatedAtDesc();
         return formatTweets(tweets);
         
     }
 
-    public List<Tweet> findAllByUser(User user) {
+    public List<TweetDisplay> findAllByUser(User user) {
 
         List<Tweet> tweets = tweetRepo.findAllByUserOrderByCreatedAtDesc(user);
-        return tweets;
+        return formatTweets(tweets);
         
     }
 
-    public List<Tweet> findAllByUsers(List<User> users) {
+    public List<TweetDisplay> findAllByUsers(List<User> users) {
 
         List<Tweet> tweets = tweetRepo.findAllByUserInOrderByCreatedAtDesc(users);
-        return tweets;
-        
+        return formatTweets(tweets);
     }
 
     public void save(Tweet tweet){
@@ -95,14 +99,70 @@ public class TweetService {
         
     }
 
-    private List<Tweet> formatTweets(List<Tweet> tweets){
-        addTagLinks(tweets);
-        return tweets;
+    private void shortenLinks(List<Tweet> tweets){
+        Pattern pattern = Pattern.compile("https?[^ ]+");
+
+        for (Tweet tweet : tweets) {
+
+            String message = tweet.getMessage();
+            Matcher matcher = pattern.matcher(message);
+
+            while (matcher.find()) {
+                String link = matcher.group();
+                String shortedLink = link;
+
+                if(link.length() > 23){
+                    shortedLink = link.substring(0,20)+ "...";
+                }
+                
+                message = message.replace(link, 
+                "<a class='tag' href=" + link + " target='_blank'>" + shortedLink + "</a>");
+                
+            }
+            tweet.setMessage(message);
+        }
     }
 
-    public List<Tweet> findAllWithTag(String tag){
+    private List<TweetDisplay> formatTimestamps(List<Tweet> tweets){
+        List<TweetDisplay> response = new ArrayList<>();
+
+        PrettyTime prettyTime = new PrettyTime();
+        // "EEE, MMM d, ''yy"	Ex: Wed, Jul 4, '01
+        SimpleDateFormat simpleDate = new SimpleDateFormat("EEE, MMM d, ''yy");
+        Date now = new Date();
+
+        for (Tweet tweet : tweets) {
+            
+            TweetDisplay tweetDisplay = new TweetDisplay();
+            tweetDisplay.setUser(tweet.getUser());
+            tweetDisplay.setMessage(tweet.getMessage());
+            tweetDisplay.setTags(tweet.getTags());
+
+            long diffInMillies = Math.abs(now.getTime() - tweet.getCreatedAt().getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+            if (diff > 3) {
+                tweetDisplay.setDate(simpleDate.format(tweet.getCreatedAt()));
+            }
+            else{
+                tweetDisplay.setDate(prettyTime.format(tweet.getCreatedAt()));
+            }
+            response.add(tweetDisplay);
+        }
+        return response;
+    }
+
+    private List<TweetDisplay> formatTweets(List<Tweet> tweets){
+        addTagLinks(tweets);
+        shortenLinks(tweets);
+        List<TweetDisplay> displayTweets = formatTimestamps(tweets);
+        return displayTweets;
+    }
+
+    public List<TweetDisplay> findAllWithTag(String tag){
         List<Tweet> tweets = tweetRepo.findByTags_PhraseOrderByCreatedAtDesc(tag);
         return formatTweets(tweets);
     }
 
+    
 }

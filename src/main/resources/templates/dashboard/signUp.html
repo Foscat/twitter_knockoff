@@ -35,20 +35,28 @@
                                     <input type="text" th:field="*{firstName}" class="form-control" id="exampleFirstName" placeholder="Enter first name" />
                                 </div>
                                 <div class="form-group">
-                                    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="validation-message" for="inputLastName">Last Name</label>
+                                    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="validation-message" for="inputLastName">
+                                        Last Name
+                                    </label>
                                     <input th:field="*{lastName}" type="text" class="form-control" id="exampleLastName" placeholder="Enter last name">
                                 </div>
                                 <div class="form-group">
-                                    <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-message" for="inputUserName">Username</label>
+                                    <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-message" for="inputUserName">
+                                        Username
+                                    </label>
                                     <input th:field="*{username}" type="text" class="form-control" id="exampleUserName" placeholder="Enter username">
                                 </div>
                                 <div class="form-group">
-                                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message" for="inputEmail">Email address</label>
-                                    <input th:field="*{email}" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message" for="inputEmail">
+                                        Email address
+                                    </label>
+                                    <input th:field="*{email}" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" />
                                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. Lol jk</small>
                                 </div>
                                 <div class="form-group">
-                                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message" for="inputPassword">Password</label>
+                                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message" for="inputPassword">
+                                        Password
+                                    </label>
                                     <input th:field="*{password}" type="password" class="form-control" id="inputPassword" placeholder="Password">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>

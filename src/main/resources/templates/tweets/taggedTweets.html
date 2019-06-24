@@ -28,7 +28,7 @@
                     <a th:href="@{/users/} + ${tweet.user.username}" class="username">
                         <h5>@<span th:text="${tweet.user.username}"></span></h5>
                     </a>
-                    <small th:text="${dates.format(tweet.createdAt, 'M/d/yy)}'"></small>
+                    <small th:text="${tweet.date}"></small>
                 </div>
                 <p class="mb-1" th:utext="${tweet.message}"></p>
             </div>

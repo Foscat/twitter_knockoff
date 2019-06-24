@@ -17,16 +17,36 @@
         
         <div th:replace="fragments/navbar :: navbar" ></div>
 
+        <ul class="nav nav-tabs">
+            <li role="presentation" th:classappend="${filter == 'all' ? 'active' : '' }">
+                <a href="/tweets">All</a>
+            </li>
+            <li role="presentation" th:classappend="${filter == 'following' ? 'active' : '' }">
+                <a href="/tweets?filter=following">following</a>
+            </li>
+        </ul>
+
+        <br>
+
     	<div class="container bg-info">
     		<h1>Dis is yo feed my mayne</h1>
     		
-    		<div th:each="tweet:${tweetList}">
+    		<div th:each="tweet:${tweetlist}">
                 <h5>@
-                    <span th:text="${tweet.user.username"></span>
-                    <small><span th:text="${#dates.format(tweet.createdAt, 'M/d/yy')}"></span></small>
+                    <!-- <span th:text="${tweet.user.username"></span> -->
+                    <small th:text="${tweet.date}"></small>
                 </h5>
                 <p th:utext="${tweet.message}"></p>
             </div>
+
+            <div th:if="${#lists.isEmpty(tweetList) and filter == 'all'}">
+                <h3>No tweets done been made</h3>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(tweetList) and filter == 'following'}">
+                <h3>No tweets bee made by ur fallowers</h3>
+            </div>
+            
     	</div>
         
     </body>
