@@ -15,3 +15,6 @@ Allows users to make a profile. The once logged in a user can make tweets and ad
 * Bootstrap
 * Lombok 
 * Font awesome
+
+
+See deployed version on cloud foundry http://twitterknockoff.cfapps.io
