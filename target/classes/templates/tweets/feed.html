@@ -28,8 +28,9 @@
 
         <br>
 
-    	<div class="container bg-info">
-    		<h1>Dis is yo feed my mayne</h1>
+        <div class="container" style="background-color: rgb(182, 243, 243)">
+            
+    		<h1>Feed</h1>
     		
     		<div th:each="tweet:${tweetlist}">
                 <h5>@
@@ -40,11 +41,11 @@
             </div>
 
             <div th:if="${#lists.isEmpty(tweetList) and filter == 'all'}">
-                <h3>No tweets done been made</h3>
+                <h3>No tweets </h3>
             </div>
             
             <div th:if="${#lists.isEmpty(tweetList) and filter == 'following'}">
-                <h3>No tweets bee made by ur fallowers</h3>
+                <h3>No tweets from followers</h3>
             </div>
             
     	</div>

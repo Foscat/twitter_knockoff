@@ -1,7 +1,19 @@
 body {
-    background-color: wheat;
+    background-color: rgb(159, 241, 156);
 }
 
 nav {
     margin: 10px;
+}
+
+ul {
+    margin: 5px;
+}
+
+li {
+    margin: 5px;
+}
+
+form {
+    margin: 5px;
 }
